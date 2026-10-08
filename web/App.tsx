@@ -1,17 +1,22 @@
 import { useEffect, useState } from "react";
 
 import { type Candidate, type Stage, loadCandidates } from "./api";
+import { MoveAndMessageModal } from "./MoveAndMessageModal";
 
 export function App() {
   const [candidates, setCandidates] = useState<Candidate[]>([]);
   const [stages, setStages] = useState<Stage[]>([]);
   const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [modalOpen, setModalOpen] = useState(false);
 
-  useEffect(() => {
+  const refresh = () =>
     loadCandidates().then((data) => {
       setCandidates(data.candidates);
       setStages(data.stages);
     });
+
+  useEffect(() => {
+    refresh();
   }, []);
 
   const toggle = (id: string) =>
@@ -30,7 +35,7 @@ export function App() {
         <h1>Product Engineer</h1>
         <div className="toolbar">
           <span>{selected.size} selected</span>
-          <button disabled title="This is your task">
+          <button disabled={selected.size === 0} onClick={() => setModalOpen(true)}>
             Move and message…
           </button>
         </div>
@@ -62,6 +67,17 @@ export function App() {
           ))}
         </tbody>
       </table>
+      {modalOpen && (
+        <MoveAndMessageModal
+          candidates={candidates.filter((c) => selected.has(c.id))}
+          stages={stages}
+          onClose={() => {
+            setModalOpen(false);
+            setSelected(new Set());
+            refresh();
+          }}
+        />
+      )}
     </main>
   );
 }
