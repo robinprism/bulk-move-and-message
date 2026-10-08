@@ -1,0 +1,43 @@
+body {
+  font: 14px/1.5 system-ui, sans-serif;
+  color: #1f2328;
+  margin: 0;
+}
+
+main {
+  max-width: 880px;
+  margin: 32px auto;
+  padding: 0 16px;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+h1 {
+  font-size: 20px;
+}
+
+.toolbar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid #e3e6ea;
+}
+
+.muted {
+  color: #6b7280;
+}
